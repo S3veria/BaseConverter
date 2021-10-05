@@ -155,14 +155,14 @@ def decimalToBase(base, num, numberOfDecimals=10):
     answer=''
     if num==0:
         return '0'
-    print("decimal convertion")
+    #print("decimal convertion")
     for i in range(numberOfDecimals):
         current=base*num
-        print(current)
+        #print(current)
         if(current==0):
             break
         if current>=1:
-            print(current)
+            #print(current)
             val=str(current).split('.')
             if int(val[0])>=10:
                 answer+=letterVals[int(val[0])]
@@ -172,7 +172,7 @@ def decimalToBase(base, num, numberOfDecimals=10):
             num=int(val[1])
             while num>1:
                 num=num/10.0
-            print(f"num: {num}")
+            #print(f"num: {num}")
         else:
             answer+="0"
             num=current
@@ -187,7 +187,7 @@ def convertNumber():
     finalResult.config(text="")
     toConvert = userEntry.get()
     toConvert=toConvert.upper()
-    print(f"Converting {toConvert} from {inputBase} to {outputBase}")
+    #print(f"Converting {toConvert} from {inputBase} to {outputBase}")
     finalResult.config(text='Answer here')
 
     basesDict = {'Binary': 2,
@@ -237,7 +237,7 @@ def convertNumber():
             except:
                 messagebox.showerror("Invalid input base",
                                      f"The input base ({inBaseNumber}) is invalid")
-    print(f"Base is {inputBase} which numerically is {inBaseNumber}")
+    #print(f"Base is {inputBase} which numerically is {inBaseNumber}")
 
     decimalValue=0
     isValidInput=True
@@ -246,7 +246,7 @@ def convertNumber():
     decimalToConvert=''
     if '.' in toConvert:
         if toConvert.count('.')>1:
-            print("Only one decimal is allowed")
+            #print("Only one decimal is allowed")
             #REGRESAR OTRO ERROR ACA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             messagebox.showerror("Invalid input ",
                              f"It appears that there are multiple decimal points (.) in the input, please use one or none")
@@ -258,7 +258,7 @@ def convertNumber():
 
 
 
-    print(f"Converting whole({wholeToConvert}) and decimal({decimalToConvert})")
+    #print(f"Converting whole({wholeToConvert}) and decimal({decimalToConvert})")
     for i in range(len(wholeToConvert)):
         position=len(wholeToConvert)-i-1
         digit=wholeToConvert[position]
@@ -274,7 +274,7 @@ def convertNumber():
 
             except:
                 # REGRESAR UN ERROR++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                print("Invalid argument: Not in the baseDict")
+                #print("Invalid argument: Not in the baseDict")
                 isValidInput=False
                 messagebox.showerror("Invalid argument in input",
                                      f"It appears some character(s) in the input are not valid, please limit the input to numerical and alphabetical characters")
@@ -299,7 +299,7 @@ def convertNumber():
                     messagebox.showerror("Invalid input base",f"The input base ({outBaseNumber}) is out of range, please select a base with a numerical value between 2 and 35")
 
             except:
-                print("Base is not valid")
+                #print("Base is not valid")
                 messagebox.showerror("Invalid input base",
                                      f"The input base ({inBaseNumber}) is invalid")
 
@@ -315,7 +315,7 @@ def convertNumber():
                 decimalIntVal=letterValsReversed[currentVal]
 
             except:
-                print("Decimal Value is not valid")
+                #print("Decimal Value is not valid")
                 messagebox.showerror("Invalid decimal value",
                                      f"The decimal portion of the input appears to be invalid")
                 isValidInput = False
@@ -331,16 +331,16 @@ def convertNumber():
     if isValidInput:
         global outPutString
         outPutString=''
-        print(f"Decimal value of input {decimalValue}")
+        #print(f"Decimal value of input {decimalValue}")
 
         wholeToBase(outBaseNumber,decimalValue)
-        print(outBaseNumber,totalDecimalValue)
+        #print(outBaseNumber,totalDecimalValue)
         decimalFinalVal=decimalToBase(outBaseNumber,totalDecimalValue)
         outPutString+="."+decimalFinalVal
         if outPutString[0]=='0':
             outPutString=outPutString[1:]
         finalResult.config(text=outPutString)
-        print(f"Output in {outputBase}: {outPutString}")
+        #print(f"Output in {outputBase}: {outPutString}")
 
     else:
         finalResult.config(text='InvalidArguments')
