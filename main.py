@@ -1,86 +1,63 @@
-
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
+import tkinter.font as tk_font
+from PIL import Image
+from PIL import ImageTk
+
+
+mainBack="#0F112A"
+entryBack="#1C1E3E"
+
 
 root=tk.Tk()
-root.geometry('600x400')
+root.geometry('1069x592')
 root.title('Base Converter')
-root.config(bg='#3F3F3F')
-
-baseOptions=['Binary','Decimal','Octal','Hexadecimal','Other']
+root.config(bg=mainBack)
+tk_font.families()
+baseOptions=['Binary','Decimal','Octal','Hexadecimal']
 
 inputBase="Decimal"
 outputBase="Binary"
 
 def checkForOtherInput(value):
     global inputBase
-    otherEntry.delete(0, END)
+
     if value=="Binary":
         inputBase=value
-        otherEntry.config(state='normal')
-        otherEntry.delete(0, END)
-        otherEntry.insert(0,'2')
-        otherEntry.config(state='disabled')
+
     if value=="Decimal":
         inputBase = value
-        otherEntry.config(state='normal')
-        otherEntry.delete(0, END)
-        otherEntry.insert(0,'10')
-        otherEntry.config(state='disabled')
+
     if value=="Octal":
         inputBase = value
-        otherEntry.config(state='normal')
-        otherEntry.delete(0, END)
-        otherEntry.insert(0,'8')
-        otherEntry.config(state='disabled')
+
     if value=='Hexadecimal':
         inputBase = value
-        otherEntry.config(state='normal')
-        otherEntry.delete(0, END)
-        otherEntry.insert(0,'16')
-        otherEntry.config(state='disabled')
+
 
     if value=="Other":
         inputBase = value
-        otherEntry.config(state='normal')
-        otherEntry.delete(0, END)
-        otherEntry.insert(0,'Other')
+
 
 
 def checkForOtherOutput(value):
     global outputBase
-    otherOutput.delete(0, END)
     if value=="Binary":
         outputBase=value
-        otherOutput.config(state='normal')
-        otherOutput.delete(0, END)
-        otherOutput.insert(0,'2')
-        otherOutput.config(state='disabled')
+
     if value=="Decimal":
         outputBase = value
-        otherOutput.config(state='normal')
-        otherOutput.delete(0, END)
-        otherOutput.insert(0,'10')
-        otherOutput.config(state='disabled')
+
     if value=="Octal":
         outputBase = value
-        otherOutput.config(state='normal')
-        otherOutput.delete(0, END)
-        otherOutput.insert(0,'8')
-        otherOutput.config(state='disabled')
+
     if value=='Hexadecimal':
         outputBase = value
-        otherOutput.config(state='normal')
-        otherOutput.delete(0, END)
-        otherOutput.insert(0,'16')
-        otherOutput.config(state='disabled')
+
 
     if value=="Other":
         outputBase = value
-        otherOutput.config(state='normal')
-        otherOutput.delete(0, END)
-        otherOutput.insert(0,'Other')
 
 
 outPutString=''
@@ -155,14 +132,14 @@ def decimalToBase(base, num, numberOfDecimals=10):
     answer=''
     if num==0:
         return '0'
-    #print("decimal convertion")
+    print("decimal convertion")
     for i in range(numberOfDecimals):
         current=base*num
-        #print(current)
+        print(current)
         if(current==0):
             break
         if current>=1:
-            #print(current)
+            print(current)
             val=str(current).split('.')
             if int(val[0])>=10:
                 answer+=letterVals[int(val[0])]
@@ -172,7 +149,7 @@ def decimalToBase(base, num, numberOfDecimals=10):
             num=int(val[1])
             while num>1:
                 num=num/10.0
-            #print(f"num: {num}")
+            print(f"num: {num}")
         else:
             answer+="0"
             num=current
@@ -187,7 +164,7 @@ def convertNumber():
     finalResult.config(text="")
     toConvert = userEntry.get()
     toConvert=toConvert.upper()
-    #print(f"Converting {toConvert} from {inputBase} to {outputBase}")
+    print(f"Converting {toConvert} from {inputBase} to {outputBase}")
     finalResult.config(text='Answer here')
 
     basesDict = {'Binary': 2,
@@ -223,21 +200,22 @@ def convertNumber():
                   'Z':35
                   }
 
-    # First we convert the input to decimal
+    # First we convert the input to decimal  +++++++++++++++++++++++++++++++++++
     inBaseNumber=10
     if inputBase != "Decimal":
         if inputBase in basesDict:
             inBaseNumber=basesDict[inputBase]
         else:
             try:
-                inBaseNumber=int(otherEntry.get())
+                #inBaseNumber=int(otherEntry.get())
+                print("I need to remove this shit")
                 # NEED TO VALIDATE IF THE BASE IS OVER 35+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 if inBaseNumber>35:
                     messagebox.showerror("Invalid input base",f"The input base ({inBaseNumber}) is out of range, please select a base with a numerical value between 2 and 35")
             except:
                 messagebox.showerror("Invalid input base",
                                      f"The input base ({inBaseNumber}) is invalid")
-    #print(f"Base is {inputBase} which numerically is {inBaseNumber}")
+    print(f"Base is {inputBase} which numerically is {inBaseNumber}")
 
     decimalValue=0
     isValidInput=True
@@ -246,7 +224,7 @@ def convertNumber():
     decimalToConvert=''
     if '.' in toConvert:
         if toConvert.count('.')>1:
-            #print("Only one decimal is allowed")
+            print("Only one decimal is allowed")
             #REGRESAR OTRO ERROR ACA ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             messagebox.showerror("Invalid input ",
                              f"It appears that there are multiple decimal points (.) in the input, please use one or none")
@@ -258,7 +236,7 @@ def convertNumber():
 
 
 
-    #print(f"Converting whole({wholeToConvert}) and decimal({decimalToConvert})")
+    print(f"Converting whole({wholeToConvert}) and decimal({decimalToConvert})")
     for i in range(len(wholeToConvert)):
         position=len(wholeToConvert)-i-1
         digit=wholeToConvert[position]
@@ -274,7 +252,7 @@ def convertNumber():
 
             except:
                 # REGRESAR UN ERROR++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                #print("Invalid argument: Not in the baseDict")
+                print("Invalid argument: Not in the baseDict")
                 isValidInput=False
                 messagebox.showerror("Invalid argument in input",
                                      f"It appears some character(s) in the input are not valid, please limit the input to numerical and alphabetical characters")
@@ -293,13 +271,14 @@ def convertNumber():
             outBaseNumber=basesDict[outputBase]
         else:
             try:
-                outBaseNumber=int(otherOutput.get())
+                #outBaseNumber=int(otherOutput.get())
+                print("This should also work no problem")
                 #NEED TO VALIDATE IF THE BASE IS OVER 35+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 if outBaseNumber>35:
                     messagebox.showerror("Invalid input base",f"The input base ({outBaseNumber}) is out of range, please select a base with a numerical value between 2 and 35")
 
             except:
-                #print("Base is not valid")
+                print("Base is not valid")
                 messagebox.showerror("Invalid input base",
                                      f"The input base ({inBaseNumber}) is invalid")
 
@@ -315,7 +294,7 @@ def convertNumber():
                 decimalIntVal=letterValsReversed[currentVal]
 
             except:
-                #print("Decimal Value is not valid")
+                print("Decimal Value is not valid")
                 messagebox.showerror("Invalid decimal value",
                                      f"The decimal portion of the input appears to be invalid")
                 isValidInput = False
@@ -331,71 +310,87 @@ def convertNumber():
     if isValidInput:
         global outPutString
         outPutString=''
-        #print(f"Decimal value of input {decimalValue}")
+        print(f"Decimal value of input {decimalValue}")
 
         wholeToBase(outBaseNumber,decimalValue)
-        #print(outBaseNumber,totalDecimalValue)
+        print(outBaseNumber,totalDecimalValue)
         decimalFinalVal=decimalToBase(outBaseNumber,totalDecimalValue)
         outPutString+="."+decimalFinalVal
         if outPutString[0]=='0':
             outPutString=outPutString[1:]
+            if outPutString==".0":
+                outPutString="0.0"
         finalResult.config(text=outPutString)
-        #print(f"Output in {outputBase}: {outPutString}")
+        print(f"Output in {outputBase}: {outPutString}")
 
     else:
         finalResult.config(text='InvalidArguments')
 
 
 
+convertBtnPhoto=Image.open("convertButton.PNG")
+
+convertBtnPhoto=ImageTk.PhotoImage(convertBtnPhoto)
+convertBtn=Button(root,text='',bg=mainBack, image=convertBtnPhoto, command=convertNumber,border=0,activebackground=mainBack)
+convertBtn.place(relx=0.5,rely=0.75, anchor=CENTER)
+
+
+
+entryImage=Image.open("entryImage.PNG")
+entryImage=entryImage.resize((405,43),Image.ANTIALIAS)
+entryImage=ImageTk.PhotoImage(entryImage)
+userEntryImage=Label(root,text='',bg=mainBack,image=entryImage)
+userEntryImage.place(relx=0.25,rely=0.3,anchor=W)
+
+baseImage=Image.open("baseImage.PNG")
+baseImage=baseImage.resize((160,43),Image.ANTIALIAS)
+baseImage=ImageTk.PhotoImage(baseImage)
+inputBaseOM=Label(root,text='',bg=mainBack,image=baseImage)
+inputBaseOM.place(relx=0.65,rely=0.3,anchor=W)
+
+outputBaseOM=Label(root,text='',bg=mainBack,image=baseImage)
+outputBaseOM.place(relx=0.65,rely=0.55,anchor=W)
+outputEntryImage=Label(root,text='',bg=mainBack,image=entryImage)
+outputEntryImage.place(relx=0.25,rely=0.55,anchor=W)
 
 
 
 
-userEntry=Entry(root,width=40,bg='#6E6E6E',fg='#000000',font=("Calibri",12), border=0)
-userEntry.place(x=25,y=100)
+userEntry=Entry(root,width=30,bg=entryBack,fg='#ffffff',font=("Courier",14), border=0)
+userEntry.place(relx=0.285,rely=0.3,anchor=W)
 
-fromText=Label(root,text="Input number and base:", bg='#3F3F3F',fg='#b3b5b3',border=0,font=("Calibri",20))
-fromText.place(x=25,y=50)
+fromText=Label(root,text="Number for Conversion", bg=mainBack,fg='#A8AEFF',border=0,font=("Courier",30))
+fromText.place(relx=0.52,rely=0.2, anchor=CENTER)
 
-devName=Label(root,text="Developed by Santiago Reyes", bg='#3F3F3F',fg='#b3b5b3',border=0,font=("Calibri",14))
-devName.place(x=25,y=10)
 
 inVar=StringVar()
 inVar.set(baseOptions[1])
 inBaseMenu=OptionMenu(root,inVar,*baseOptions, command=checkForOtherInput)
-inBaseMenu.config(border=0,bg='#6E6E6E',fg='#040404', width=20)
-inBaseMenu.place(x=400,y=95)
-
-otherEntry=Entry(root,width=10,font=("Calibri",15), border=0)
-otherEntry.config(bg='#6E6E6E',fg='#000000')
-otherEntry.insert(0,"10")
-otherEntry.place(x=400,y=125)
-otherEntry.config(state='disabled')
+inBaseMenu["highlightthickness"]=0
+inBaseMenu["menu"].config(bg=entryBack, border=0,fg="#ffffff")
+inBaseMenu.config(border=0,bg=entryBack,fg='#ffffff', width=10)
+inBaseMenu.place(relx=0.68, rely=0.3,anchor=W)
 
 
-toText=Label(root,text="Output Base:", bg='#3F3F3F',fg='#b3b5b3',border=0,font=("Calibri",20))
-toText.place(x=25,y=200)
+
+
+toText=Label(root,text="Converted Number", bg=mainBack,fg='#ffffff',border=0,font=("Courier",30))
+toText.place(relx=0.52,rely=0.45,anchor=CENTER)
+
+
 
 outVar=StringVar()
 outVar.set(baseOptions[0])
-outBaseMenu=OptionMenu(root,outVar,*baseOptions, command=checkForOtherOutput)
-outBaseMenu.config(border=0,bg='#6E6E6E',fg='#040404', width=20)
-outBaseMenu.place(x=220,y=205)
-
-otherOutput=Entry(root,width=10,font=("Calibri",15), border=0)
-otherOutput.config(bg='#6E6E6E',fg='#000000')
-otherOutput.insert(0,"2")
-otherOutput.place(x=220,y=240)
-otherOutput.config(state='disabled')
+outBaseMenu=OptionMenu(root,outVar,*baseOptions, command=checkForOtherOutput) #Use checkforotheroutput function
+outBaseMenu["highlightthickness"]=0
+outBaseMenu["menu"].config(bg=entryBack, border=0,fg="#ffffff")
+outBaseMenu.config(border=0,bg=entryBack,fg='#ffffff', width=10)
+outBaseMenu.place(relx=0.68, rely=0.55,anchor=W)
 
 
 
-convertBtn=Button(root,text='Convert!',bg='#E46A6B',fg='#000000', width=22, command=convertNumber)
-convertBtn.place(x=400,y=205)
 
-answerText=Label(root,text="ANSWER:", bg='#3F3F3F',fg='#b3b5b3',border=0,font=("Calibri",20))
-answerText.place(x=20, y=320)
-finalResult=Label(root,text="", bg='#3F3F3F',fg='#b3b5b3',border=0,font=("Calibri",20))
-finalResult.place(x=150,y=320)
+finalResult=Label(root,text="", bg=entryBack,fg='#b3b5b3',border=0,font=("Courier",15))
+finalResult.place(relx=0.275,rely=0.55,anchor=W)
 
 root.mainloop()
